@@ -29,5 +29,28 @@ public:
            int n = nums.size();
            vector<vector<int>> dp(n+1 , vector<int> (n+1, -1));
            return solve(0 , -1 , nums , dp);
+
+
+           // Tabulation 
+        vector<vector<int>> dp(n+1 , vector<int> (n+1, 0));
+
+        for(int i = n-1 ; i >= 0 ; i--)
+        {    
+            // prev_idx will start just before the current index.
+            for(int prev_idx = i-1 ; prev_idx >= -1 ; prev_idx--)
+            {
+               int not_pick = 0 + dp[i+1][prev_idx+1];
+        
+                int pick =0;
+                if(prev_idx == -1 || nums[i] > nums[prev_idx])
+                {
+                    pick =   1 + dp[i+1][i+1];
+                }
+
+                 dp[i][prev_idx+1] =  max(pick , not_pick);
+            }
+        }
+        return dp[0][0];
+    }
     }
 };
